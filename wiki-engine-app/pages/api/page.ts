@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import type { WikiPage } from "@/src/models/WikiPage";
+import { WikiPage } from "../../src/models/WikiPage";
 
 // 임시 메모리 저장소
 const pages: WikiPage[] = [];

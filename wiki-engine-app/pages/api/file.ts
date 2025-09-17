@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import type { WikiFile } from "@/src/models/WikiFile";
+import { WikiFile } from "../../src/models/WikiFile";
 
 // 임시 메모리 저장소
 const files: WikiFile[] = [];
