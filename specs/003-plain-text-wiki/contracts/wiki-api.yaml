@@ -1,0 +1,96 @@
+openapi: 3.0.0
+info:
+  title: Wiki Engine API
+  version: 0.1.0
+paths:
+  /api/page:
+    get:
+      summary: Get wiki page
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Wiki page data
+    post:
+      summary: Create wiki page
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WikiPage'
+      responses:
+        '201':
+          description: Created
+  /api/file:
+    get:
+      summary: Get file metadata
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: File metadata
+    post:
+      summary: Upload file
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WikiFile'
+      responses:
+        '201':
+          description: Uploaded
+components:
+  schemas:
+    WikiPage:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+        isPrivate:
+          type: boolean
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/WikiLink'
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/WikiFile'
+    WikiFile:
+      type: object
+      properties:
+        id:
+          type: string
+        filename:
+          type: string
+        path:
+          type: string
+        isPrivate:
+          type: boolean
+        referencedBy:
+          type: array
+          items:
+            type: string
+    WikiLink:
+      type: object
+      properties:
+        id:
+          type: string
+        sourcePage:
+          type: string
+        targetPage:
+          type: string
+        type:
+          type: string
