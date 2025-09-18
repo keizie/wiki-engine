@@ -78,6 +78,60 @@ As a wiki user, I want to create and edit wiki pages using plain text Markdown f
 - **GitCommit**: Represents a version of one or more wiki pages at a specific point in time
 - **Extension**: Represents an extension point in the system where additional functionality can be added
 
+## Default Frontend Pages
+
+- **frontpage**: The main home page of the wiki engine, providing an introduction and navigation to key features.
+- **recent changes**: A dedicated page listing the most recently modified wiki pages, accessible at `/recent-changes`. This page displays the latest 10 changes, sorted by modification date, and is provided by default in the frontend implementation.
+
+Both pages are implemented as Next.js app routes:
+
+- `/app/page.tsx` (frontpage)
+- `/app/recent-changes/page.tsx` (recent changes)
+
+These pages are always present in the default deployment and serve as the main entry points for users.
+
+## E2E Testing for Frontend Pages
+
+Each default frontend page is provided with its own end-to-end (E2E) test to ensure correct rendering and user interaction:
+
+- **frontpage**: E2E test verifies that the main home page loads successfully and displays the expected introduction and navigation elements.
+- **recent changes**: E2E test verifies that the recent changes page loads, displays the latest 10 modified wiki pages, and correctly shows page titles and modification dates.
+
+E2E tests are implemented using Playwright and are located in:
+
+- `/tests/e2e/frontpage.e2e.test.ts`
+- `/tests/e2e/recent-changes.e2e.test.ts`
+
+These tests are run automatically to validate the UI and user experience for each main entry point.
+
+## E2E Test Data Setup
+
+For all frontend E2E tests involving listing or displaying wiki pages (e.g., recent changes), the test suite MUST include a data creation step before verifying the listing. This ensures that the UI is tested with actual data and reflects real user scenarios.
+
+- E2E tests for listing pages (such as recent changes) will POST sample WikiPage data to the API before navigating to the listing page and performing assertions.
+- This setup guarantees that the listing UI is always tested with at least one valid entry, and the test remains robust and repeatable.
+
+Example (Playwright):
+
+```typescript
+test.beforeEach(async ({ request }) => {
+  await request.post("http://localhost:3000/api/page", {
+    data: {
+      id: "test1",
+      title: "테스트 페이지",
+      updatedAt: new Date().toISOString(),
+      content: "내용",
+      links: [],
+      isPrivate: false,
+      createdAt: new Date().toISOString(),
+      files: [],
+    },
+  });
+});
+```
+
+This step is required for all E2E tests that validate list or table UIs.
+
 ## Review & Acceptance Checklist
 
 ### Content Quality
