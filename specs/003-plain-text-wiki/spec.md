@@ -80,7 +80,7 @@ As a wiki user, I want to create and edit wiki pages using plain text Markdown f
 
 ## Default Frontend Pages
 
-- **frontpage**: The main home page of the wiki engine, providing an introduction and navigation to key features.
+- **frontpage**: The main home page of the wiki engine, providing an introduction and navigation to key features. The frontpage MUST include a visible link to the "recent changes" page, allowing users to quickly access the list of recently modified wiki pages.
 - **recent changes**: A dedicated page listing the most recently modified wiki pages, accessible at `/recent-changes`. This page displays the latest 10 changes, sorted by modification date, and is provided by default in the frontend implementation.
 
 Both pages are implemented as Next.js app routes:
